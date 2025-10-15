@@ -35,6 +35,14 @@
     {
       "name": "gray",
       "value": "#999999"
+    },
+    {
+      "name": "indicator_color",
+      "value": "#CCCBCB"
+    },
+    {
+      "name": "indicator_active_color",
+      "value": "#479559"
     }
   ]
 }
