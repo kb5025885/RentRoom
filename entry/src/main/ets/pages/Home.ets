@@ -1,8 +1,10 @@
 import SwiperLayout from '../views/Home/SwiperLayout';
 import SearchBar from '../views/Home/SearchBar';
+import NavList from '../views/Home/NavList';
 
 import { getHomeDataApi } from '../api/home';
 import { BannerListDataSource, INavList, IPlanList, ITileList } from '../models/HomeData';
+import { PADDING } from '../constants/size';
 
 @Component
 export default struct Home {
@@ -30,7 +32,13 @@ export default struct Home {
   build() {
     Stack() {
       Scroll() {
-        SwiperLayout({ bannerList: this.bannerList })
+        Column() {
+          SwiperLayout({ bannerList: this.bannerList })
+          Column() {
+            NavList({ navList: this.navList })
+          }.padding({ left: PADDING, right: PADDING })
+        }
+        .justifyContent(FlexAlign.Start)
       }
       .height('100%')
       .align(Alignment.TopStart)
