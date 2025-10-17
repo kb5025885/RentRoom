@@ -1,6 +1,7 @@
 import SwiperLayout from '../views/Home/SwiperLayout';
 import SearchBar from '../views/Home/SearchBar';
 import NavList from '../views/Home/NavList';
+import TileList from '../views/Home/TileList';
 
 import { getHomeDataApi } from '../api/home';
 import { BannerListDataSource, INavList, IPlanList, ITileList } from '../models/HomeData';
@@ -36,6 +37,7 @@ export default struct Home {
           SwiperLayout({ bannerList: this.bannerList })
           Column() {
             NavList({ navList: this.navList })
+            TileList({ tileList: this.tileList })
           }.padding({ left: PADDING, right: PADDING })
         }
         .justifyContent(FlexAlign.Start)
