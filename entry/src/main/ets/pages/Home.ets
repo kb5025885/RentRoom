@@ -6,6 +6,7 @@ import TileList from '../views/Home/TileList';
 import { getHomeDataApi } from '../api/home';
 import { BannerListDataSource, INavList, IPlanList, ITileList } from '../models/HomeData';
 import { PADDING } from '../constants/size';
+import PlanList from '../views/Home/PlanList';
 
 @Component
 export default struct Home {
@@ -38,6 +39,7 @@ export default struct Home {
           Column() {
             NavList({ navList: this.navList })
             TileList({ tileList: this.tileList })
+            PlanList({ planList: this.planList })
           }.padding({ left: PADDING, right: PADDING })
         }
         .justifyContent(FlexAlign.Start)
