@@ -4,6 +4,7 @@ import NavList from '../views/Home/NavList';
 import TileList from '../views/Home/TileList';
 import PlanList from '../views/Home/PlanList';
 import Ad from '../views/Home/Ad';
+import RoomRecommend from '../views/Home/RoomRecommend';
 
 import { getHomeDataApi } from '../api/home';
 import { BannerListDataSource, INavList, IPlanList, ITileList } from '../models/HomeData';
@@ -37,17 +38,21 @@ export default struct Home {
       Scroll() {
         Column() {
           SwiperLayout({ bannerList: this.bannerList })
+
           Column() {
             NavList({ navList: this.navList })
             TileList({ tileList: this.tileList })
             PlanList({ planList: this.planList })
             Ad({ adPicture: this.adPicture })
           }.padding({ left: PADDING, right: PADDING })
+
+          RoomRecommend()
         }
         .justifyContent(FlexAlign.Start)
       }
       .height('100%')
       .align(Alignment.TopStart)
+      .scrollBar(BarState.Off)
 
       SearchBar()
     }
