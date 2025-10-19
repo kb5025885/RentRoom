@@ -1,3 +1,7 @@
+import { getHomeDataApi } from '../api/home';
+import { BannerListDataSource, IColor, INavList, IPlanList, ITileList } from '../models/HomeData';
+import { PADDING } from '../constants/size';
+
 import SwiperLayout from '../views/Home/SwiperLayout';
 import SearchBar from '../views/Home/SearchBar';
 import NavList from '../views/Home/NavList';
@@ -5,10 +9,7 @@ import TileList from '../views/Home/TileList';
 import PlanList from '../views/Home/PlanList';
 import Ad from '../views/Home/Ad';
 import RoomRecommend from '../views/Home/RoomRecommend';
-
-import { getHomeDataApi } from '../api/home';
-import { BannerListDataSource, INavList, IPlanList, ITileList } from '../models/HomeData';
-import { PADDING } from '../constants/size';
+import ScrollContainer from '../components/ScrollContainer';
 
 @Component
 export default struct Home {
@@ -36,58 +37,38 @@ export default struct Home {
     this.adPicture = homeData.adPicture;
   }
 
-  // 处理滚动
-  handleScroll = (xOffset: number, yOffset: number) => {
-    this.scrollY += yOffset;
-    if (this.scrollY < 0) {
-      this.scrollY = 0;
+  @Builder
+  contentBuilder() {
+    SwiperLayout({ bannerList: this.bannerList })
+
+    Column() {
+      NavList({ navList: this.navList })
+      TileList({ tileList: this.tileList })
+      PlanList({ planList: this.planList })
+      Ad({ adPicture: this.adPicture })
     }
-    this.calcColor()
+    .padding({
+      left: PADDING,
+      right: PADDING,
+      // top: 24,
+      // bottom: 24
+    })
+    .backgroundColor($r('app.color.white'))
+
+    RoomRecommend()
   }
-  // 计算颜色
-  calcColor = () => {
-    // 滚动计算的 scrollY 的值到达顶部可能不是 0，给点误差
-    if (this.scrollY < 10) {
-      // 初始状态
-      this.bgColor = 'rgba(255, 255, 255, 0)'
-      this.fontColor = 'rgb(255, 255, 255)'
-    } else if (this.scrollY < 100) {
-      // 渐变状态
-      const colorOpacity = (this.scrollY - 10) / (100 - 10)
-      this.bgColor = `rgba(255, 255, 255, ${colorOpacity})`
-      this.fontColor = `rgba(0, 0, 0, ${colorOpacity})`
-    } else {
-      // 结束状态
-      this.bgColor = 'rgb(255, 255, 255)'
-      this.fontColor = 'rgb(0, 0, 0)'
-    }
+
+  @Builder
+  navBuilder($$: IColor) {
+    SearchBar({ bgColor: $$.bgColor, fontColor: $$.fontColor })
   }
 
   build() {
-    Stack() {
-      Scroll() {
-        Column() {
-          SwiperLayout({ bannerList: this.bannerList })
-
-          Column() {
-            NavList({ navList: this.navList })
-            TileList({ tileList: this.tileList })
-            PlanList({ planList: this.planList })
-            Ad({ adPicture: this.adPicture })
-          }.padding({ left: PADDING, right: PADDING })
-
-          RoomRecommend()
-        }
-        .justifyContent(FlexAlign.Start)
-      }
-      .height('100%')
-      .align(Alignment.TopStart)
-      .scrollBar(BarState.Off)
-      .onDidScroll(this.handleScroll)
-
-      SearchBar({ bgColor: this.bgColor, fontColor: this.fontColor })
-    }
-    .height('100%')
-    .alignContent(Alignment.TopStart)
+    ScrollContainer({
+      contentBuilder: () => {
+        this.contentBuilder()
+      },
+      navBuilder: this.navBuilder
+    })
   }
 }
