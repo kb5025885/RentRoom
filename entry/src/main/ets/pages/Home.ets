@@ -50,8 +50,8 @@ export default struct Home {
     .padding({
       left: PADDING,
       right: PADDING,
-      // top: 24,
-      // bottom: 24
+      top: 24,
+      bottom: 24
     })
     .backgroundColor($r('app.color.white'))
 

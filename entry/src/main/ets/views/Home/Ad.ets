@@ -9,7 +9,7 @@ export default struct Ad {
       .width('100%')
       .height(61)
       .objectFit(ImageFit.Fill)
-      .margin({ top: 9 })
+      .margin({ top: 10 })
       .shadow({
         radius: SHADOW_RADIUS,
         color: $r('app.color.shadow'),

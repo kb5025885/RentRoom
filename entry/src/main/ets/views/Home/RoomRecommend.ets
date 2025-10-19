@@ -32,10 +32,10 @@ export default struct RoomRecommend {
       }
     }
     .width('100%')
-    .height(67)
+    .height(44)
     .justifyContent(FlexAlign.SpaceBetween)
     .backgroundColor($r('app.color.white'))
-    .padding({ left: PADDING, right: PADDING, top: 23 })
+    .padding({ left: PADDING, right: PADDING })
   }
 
   // 房源列表
@@ -100,8 +100,8 @@ export default struct RoomRecommend {
       .padding({
         left: PADDING,
         right: PADDING,
-        top: 8,
-        bottom: 8
+        top: PADDING,
+        bottom: PADDING
       })
       .backgroundColor($r('app.color.bg_gray'))
       .borderRadius(BORDER_RADIUS)
