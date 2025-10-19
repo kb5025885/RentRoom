@@ -18,6 +18,9 @@ export default struct Home {
   @State tileList: ITileList = [];
   @State planList: IPlanList = [];
   @State adPicture: string = '';
+  scrollY: number = 0;
+  @State bgColor: string = 'rgba(255, 255, 255, 0)'
+  @State fontColor: string = 'rgb(255, 255, 255)'
 
   // 组件生命周期
   aboutToAppear() {
@@ -31,6 +34,33 @@ export default struct Home {
     this.tileList = homeData.tileList;
     this.planList = homeData.planList;
     this.adPicture = homeData.adPicture;
+  }
+
+  // 处理滚动
+  handleScroll = (xOffset: number, yOffset: number) => {
+    this.scrollY += yOffset;
+    if (this.scrollY < 0) {
+      this.scrollY = 0;
+    }
+    this.calcColor()
+  }
+  // 计算颜色
+  calcColor = () => {
+    // 滚动计算的 scrollY 的值到达顶部可能不是 0，给点误差
+    if (this.scrollY < 10) {
+      // 初始状态
+      this.bgColor = 'rgba(255, 255, 255, 0)'
+      this.fontColor = 'rgb(255, 255, 255)'
+    } else if (this.scrollY < 100) {
+      // 渐变状态
+      const colorOpacity = (this.scrollY - 10) / (100 - 10)
+      this.bgColor = `rgba(255, 255, 255, ${colorOpacity})`
+      this.fontColor = `rgba(0, 0, 0, ${colorOpacity})`
+    } else {
+      // 结束状态
+      this.bgColor = 'rgb(255, 255, 255)'
+      this.fontColor = 'rgb(0, 0, 0)'
+    }
   }
 
   build() {
@@ -53,8 +83,9 @@ export default struct Home {
       .height('100%')
       .align(Alignment.TopStart)
       .scrollBar(BarState.Off)
+      .onDidScroll(this.handleScroll)
 
-      SearchBar()
+      SearchBar({ bgColor: this.bgColor, fontColor: this.fontColor })
     }
     .height('100%')
     .alignContent(Alignment.TopStart)
